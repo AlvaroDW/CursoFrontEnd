@@ -1,0 +1,23 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> 
+    <script type="text/javascript" src="script.js"></script> 
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head> 
+<body> 
+        <h1>¿Piedra, papel o tijera?</h1> 
+    <div class="u">Jugador: </div><div class="usuario">0</div> 
+    <div class="ordenador">0</div><div class="o">PC: </div> 
+    <div class="clear"></div> 
+    <div id="resultado"></div> 
+    <div id="opciones"> 
+        <input type="radio" name="elemento" id="piedra" value="piedra"><label for="piedra">Piedra</label> 
+        <input type="radio" name="elemento" id="papel" value="papel"><label for="papel">Papel</label> 
+        <input type="radio" name="elemento" id="tijera" value="tijera"><label for="tijera">Tijera</label> 
+    </div> 
+   
+</body> 
+
+</html>

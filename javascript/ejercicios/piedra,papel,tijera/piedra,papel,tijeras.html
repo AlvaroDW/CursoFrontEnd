@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/estilo.css">
+    <title>Piedra, papel o tijeras</title>
+</head>
+<body>
+    <div id="container">
+        <div id="contenedor">
+    <h1>¿Piedra, papel o tijera?</h1> 
+    <!--<div class="u">Jugador: </div><div class="usuario">0</div> 
+    <div class="ordenador">0</div><div class="o">PC: </div>-->
+    <div id="opciones"> 
+            <img src="img/piedra.png" name="piedra" id = "piedra"/>
+            <img src="img/papel.png" name="papel" id = "papel"/>
+            <img src="img/tijera.png" name="tijeras" id = "tijeras"/> 
+    </div>
+            <div id="divRonda">0</div>
+<div id="divPuntuacion">
+            <div id="divUsuario">Usuario:<span id="puntUsuario">0</span></div>
+            <div id="divOrdenador">Ordenador:<span id="puntOrdenador">0</span></div>
+            </div>
+            <div class="clear"></div> 
+            <div id="resultado"></div>  
+        </div>
+        </div>
+</body>
+    <script>
+        
+        var contador = {
+            ordenador : 0, usuario: 0
+        };
+        
+        var ronda = 0;
+        var maxRondas = 3;
+        
+        
+        var puntUsu = $("#divUsuario span").val();
+        var puntOrd = $("#divOrdenador span").val();
+        
+        
+        
+    $(document).ready(function(){
+         
+        $('#opciones img').click(function(){
+            var elecUsuario=$(this).attr('id');
+            var elecOrdenador= nuevaElecOrdenador();
+            var resultado = EvalResultado(elecUsuario, elecOrdenador);
+        });
+        
+        function nuevaElecOrdenador(){
+            var elecOrdenador = Math.floor(Math.random()*3)+1;
+            
+            if(elecOrdenador == 1){
+                elecOrdenador = "piedra";
+            }
+            else if(elecOrdenador == 2){
+                elecOrdenador = "papel";
+            }else{
+                elecOrdenador = "tijeras";
+            }
+            return elecOrdenador;
+        }
+        
+        function EvalResultado( elecUsuario, elecOrdenador){
+            
+            if(elecOrdenador == elecUsuario){
+                resultado = "¡Empate!";
+            }else if(elecUsuario == "piedra" && elecOrdenador == "tijeras" || elecUsuario == "papel" && elecOrdenador == "piedra" || elecUsuario == "tijeras" && elecOrdenador == "papel" ){
+                resultado = "¡Tú ganas!";
+                contador.usuario+=1;
+            }
+            else if(elecOrdenador == "piedra" && elecUsuario == "tijeras" || elecOrdenador == "papel" && elecUsuario == "piedra" || elecOrdenador == "tijeras" && elecUsuario == "papel"){
+                resultado = "Lo siento, Tú pierdes";
+                contador.ordenador+=1;
+            }
+            return resultado;
+            controlPartida();
+            rondaPartida();
+                }
+        
+        function controlPartida(){
+
+            }
+        }
+        
+        function rondaPartida(){
+                      ronda = ronda + 1;
+            if ( ronda >= maxRondas){
+        }
+        
+    });
+    </script>
+</html>
