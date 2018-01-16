@@ -20,80 +20,149 @@
             <img src="img/papel.png" name="papel" id = "papel"/>
             <img src="img/tijera.png" name="tijeras" id = "tijeras"/> 
     </div>
-            <div id="divRonda">0</div>
+            <table class="table" id="tablaRastreo">
+            <thead class="thead-dark">
+                <th scope="col1">Puntuación de Usuario
+                </th>
+                <th scope="col1">
+                Puntuación de Ordenador
+                </th>
+                <th scope="col1">
+                Empates</th>
+                <th scope="col1">Ronda
+                </th>
+                </thead>
+                <tbody>
+                    <tr>
+                    <td id="puntUsu">0</td>
+                    <td id="puntOrd">0</td>
+                    <td id="numEmp">0</td>
+                    <td id="numRonda">0</td>
+                    </tr>
+                </tbody>
+            </table>
+        <!--<div id="divRonda">0</div>
 <div id="divPuntuacion">
             <div id="divUsuario">Usuario:<span id="puntUsuario">0</span></div>
             <div id="divOrdenador">Ordenador:<span id="puntOrdenador">0</span></div>
             </div>
             <div class="clear"></div> 
-            <div id="resultado"></div>  
+            <div id="resultado"></div>-->
+            <div id="divResultJuego"></div>
         </div>
         </div>
 </body>
     <script>
         
         var contador = {
-            ordenador : 0, usuario: 0
-        };
+            ordenador : 0, usuario: 0, empates: 0, contarRonda: 0, maxRondas: 3
+        }
         
-        var ronda = 0;
-        var maxRondas = 3;
-        
-        
-        var puntUsu = $("#divUsuario span").val();
-        var puntOrd = $("#divOrdenador span").val();
-        
-        
+        //var ronda = 0;
+       
         
     $(document).ready(function(){
-         
+        
+        //variables con la nomenclatura
+        var $puntUsu = $("#puntUsu");
+        var $puntOrd = $("#puntOrd");
+        var numeroRonda = $("#numRonda");
+        var numeroEmpates = $("#numEmp");
+        var MensajeJuego = $("#divResultJuego");
+         var valores=['piedra','papel','tijera'];
+
+        
+        MensajeJuego.css('display', 'hidden');
+        
         $('#opciones img').click(function(){
             var elecUsuario=$(this).attr('id');
+            console.log('usuario:'+elecUsuario);
             var elecOrdenador= nuevaElecOrdenador();
             var resultado = EvalResultado(elecUsuario, elecOrdenador);
+            var contPartida = controlPartida(numeroRonda, contador);
         });
         
         function nuevaElecOrdenador(){
-            var elecOrdenador = Math.floor(Math.random()*3)+1;
-            
-            if(elecOrdenador == 1){
-                elecOrdenador = "piedra";
-            }
-            else if(elecOrdenador == 2){
-                elecOrdenador = "papel";
-            }else{
-                elecOrdenador = "tijeras";
-            }
-            return elecOrdenador;
+            var elecOrdenador = Math.floor(Math.random()*3);
+            return valores[elecOrdenador];
         }
         
         function EvalResultado( elecUsuario, elecOrdenador){
             
+            var resultado;
+            
             if(elecOrdenador == elecUsuario){
                 resultado = "¡Empate!";
+                contador.empates+=1;
+                contador.contarRonda+=1;
+                numeroEmpates.text(contador.empates);
+                numeroRonda.text(contador.contarRonda);
+                
             }else if(elecUsuario == "piedra" && elecOrdenador == "tijeras" || elecUsuario == "papel" && elecOrdenador == "piedra" || elecUsuario == "tijeras" && elecOrdenador == "papel" ){
                 resultado = "¡Tú ganas!";
                 contador.usuario+=1;
+                contador.contarRonda+=1;
+                puntUsu.text(contador.usuario);
+                numeroRonda.text(contador.contarRonda);
             }
             else if(elecOrdenador == "piedra" && elecUsuario == "tijeras" || elecOrdenador == "papel" && elecUsuario == "piedra" || elecOrdenador == "tijeras" && elecUsuario == "papel"){
                 resultado = "Lo siento, Tú pierdes";
                 contador.ordenador+=1;
+                contador.contarRonda+=1;
+                puntOrd.text(contador.ordenador);
+                numeroRonda.text(contador.contarRonda);
+                
             }
-            return resultado;
-            controlPartida();
-            rondaPartida();
+            //no se peude hacer return 2 veces acaba la funcion
+            //return numeroRonda;
+            //return contador;
+            controlPartida(numeroRonda, contador);
+            //controlPartida(numeroRonda, resultado);
                 }
         
-        function controlPartida(){
-
+        /*function controlPartida(numeroRonda, resultado){
+            ar numeroRonda; 
+            if(numeroRonda < contador.maxRondas){
+             contador.contarRonda+=1;
+             numeroRonda.text(contador.contarRonda);
+            }else{
+                puntOrd.text(contador.ordenador);
+                puntUsu.text(contador.usuario);
+                numeroEmpates.text(contador.empates);
+                numeroRonda.text(contador.contarRonda);  
             }
         }
+        */
         
-        function rondaPartida(){
-                      ronda = ronda + 1;
-            if ( ronda >= maxRondas){
-        }
-        
-    });
+        function controlPartida(numeroRonda,contador){
+            //MensajeJuego;
+            if(numeroRonda.text() > contador.maxRondas){
+                if(contador.usuario > contador.ordenador){
+                    MensajeJuego.css('visibility', 'visible');
+                    MensajeJuego.append('<p>¡Usuario gana!</p>');
+            }else if(contador.usuario < contador.ordenador){
+                    MensajeJuego.css('visibility', 'visible');
+                    MensajeJuego.append('<p>¡Ordenador gana!</p>');
+            }else{
+                    MensajeJuego.css('visibility', 'visible');
+                    MensajeJuego.append('<p>¡Empate!</p>');
+            }
+                //$('#opciones img').off();
+                contador.usuario = 0;
+                contador.ordenador = 0;
+                contador.contarRonda = 0;
+                contador.empates = 0;
+                numeroEmpates.text(contador.empates);
+                numeroRonda.text(contador.contarRonda);  
+                puntOrd.text(contador.ordenador);
+                puntUsu.text(contador.usuario);
+            }
+          
+            
+            else{
+             //$('#opciones img').on('click');   
+            }
+            }
+        });
     </script>
 </html>
