@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeria de imágenes</title>
+     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/estilo.css">
+    <link rel="stylesheet" href="css/lightbox.min.css">
+   <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+     <script src="js/lightbox.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+             <div id="contenedorPr" class="starter-template">
+                 <div class="panel panel-default">
+                     <div class="panel-body">
+                     <div class="panel-heading">
+                         <h6 class="panel-title">Galería</h6>
+                        </div>
+        <select name="selecRaza" id="selecRaza">
+                         <option selected disabled>Elija una opción</option>
+                         </select>
+                    <div id="divGaleria"></div>
+                    </div>
+                 </div>
+            </div>
+    
+    <script>
+        $(document).ready(function(){
+            
+            lightbox.option({
+            'resizeDuration':200,
+            'wrapAround': true
+        });
+            
+        
+           
+            
+            
+            //var output='';
+            $.getJSON("https://dog.ceo/api/breeds/list/all", function(data){
+                if(data.status==="success"){//para comprobacion de errores añadir sintaxis $.ajax() let success-function 
+                    console.log( "success" );
+                    //let datos = data.message;
+                    $.each(data.message, function(key){
+                    //datos.push("<option>"+ key + "</option>");
+                        $("#selecRaza").append('<option id="' + key + '">' + key + '</option>') ;
+                });
+                    //$("#selecRaza").append(output);
+                    //$("#selecRazas").append
+                }/*else{
+                   console.log("La petición falló");
+                }*/
+            })
+        });
+        
+        $("#selecRaza").change(function(){
+            //
+            let raza = $(this).val();
+            //incluir en un bucle for o hacer una funcion con parametro raza, y le asignas un valor numerico. 
+            cargaImagen(raza, 4);
+        });
+        
+        function cargaImagen(raza, numImg){
+            for(let i = 0; i<numImg; i++){
+            $.getJSON("https://dog.ceo/api/breed/" +raza+ "/images/random", function(data){
+                $("#divGaleria").append('<div><a data-title="<a class=\'mifav\'>añadir a favoritos</a> ' + raza + '" href="' + data.message + '" data-lightbox="roadtrip"><img class="img-responsive img-rounded" src="' + data.message + '"></a></div>');
+            });
+                }
+        }
+        
+        
+        
+        /*$(document).on('click','a.mifav',function(event){
+            alert('click');
+            event.preventDefault();
+        })
+        */
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /*
+        carga una modal de bootstrap` con la source de la imagen
+        
+        -2 op: utilizar vue
+        /*
+        
+        //favoritos
+        añadir un boton que almacene en un array el elemento favorito
+        
+        ---------------------------------------------------------------
+        
+        
+        */
+        </script>
+</body>
+</html>
